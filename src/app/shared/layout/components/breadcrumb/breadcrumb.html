@@ -1,0 +1,6 @@
+<nz-breadcrumb>
+  <i nz-icon nzType="home" nzTheme="outline" class="mr-2"></i>
+  <nz-breadcrumb-item *ngFor="let bc of breadcrumbs">
+    <a [routerLink]="bc.url" [ngClass]="{'active-bc': bc.url === router.url}">{{ bc.label }}</a>
+  </nz-breadcrumb-item>
+</nz-breadcrumb>

@@ -1,0 +1,18 @@
+<ng-container *ngFor="let item of items">
+  <li *ngIf="item.children?.length; else singleItem"
+      nz-submenu
+      [nzTitle]="item.title"
+      [nzIcon]="item.icon ?? ''">
+    <ul>
+      <!-- Đệ quy ở đây -->
+      <app-menu-item [isCollapsed]="isCollapsed" [items]="item.children ?? []"></app-menu-item>
+    </ul>
+  </li>
+
+  <ng-template #singleItem>
+    <li nz-menu-item *hasAnyAuthority="item.role">
+      <i *ngIf="item.icon" nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+      <span>{{ item.title }}</span>
+    </li>
+  </ng-template>
+</ng-container>

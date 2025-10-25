@@ -1,0 +1,153 @@
+<nz-table #table
+          [nzScroll]="nzScroll"
+          [nzShowPagination]="false"
+          [nzData]="listOfData">
+  <thead>
+  <tr>
+    <th
+      *ngIf="settingTable?.checkboxColumn"
+      [(nzChecked)]="allCheckedRow"
+      (nzCheckedChange)="onAllCheckedRow($event)"
+      nzWidth="50px"
+    ></th>
+    <th *ngFor="let col of displayColumns"
+        [nzWidth]="col?.nzWidth ?? '100px'"
+        [nzLeft]="col?.nzLeft ?? false"
+        [nzRight]="col?.nzRight ?? false"
+        [ngClass]="col?.thClass"
+    >
+
+      <ng-container
+        [ngTemplateOutlet]="headerTemplate[col.columnDef] ? headerTemplate[col.columnDef] : headerTemplateDefault"
+        [ngTemplateOutletContext]="{col: col}"
+      >
+      </ng-container>
+      <ng-template #headerTemplateDefault>
+        <div class="w-full h-full flex flex-col">
+        <span>
+          {{col.header}}
+        </span>
+          <ng-container *ngIf="col?.isFilter">
+            <ng-container *ngIf="col?.filter; else filterTemplateDefault">
+              <ng-container [ngSwitch]="col?.filter?.type">
+                <ng-container *ngSwitchCase="'select'">
+                  <app-select-infinite #selectInfiniteComponent
+                                       [(ngModel)]="col.valueFilter"
+                                       [list]="col.filter?.options ?? []"
+                                       [apiFnAll]="col.filter?.loadAll"
+                                       [apiFnStream]="col.filter?.loadDataStream"
+                                       [placeholder]="col.filter?.placeHolder ?? ''"
+                                       [nzMaxTagCount]="col.filter?.nzMaxTag ?? 2"
+                                       [mode]="col.filter?.mode ?? 'default'"
+                                       (blur)="filterDataByColumn(col, $event)"
+                                       [emitObject]="!!col.filter?.emitObject"
+                                       (ngModelChange)="!selectInfiniteComponent?.isOpenChange && filterDataByColumn(col, $event)"
+                  >
+                  </app-select-infinite>
+                </ng-container>
+                <ng-container *ngSwitchCase="'date_time'">
+                  <nz-date-picker
+                    [nzFormat]="col.filter?.format ?? 'dd/MM/yyyy'"
+                    [(ngModel)]="col.valueFilter"
+                    (ngModelChange)="filterDataByColumn(col, $event)">
+                  </nz-date-picker>
+                </ng-container>
+                <ng-container *ngSwitchCase="'date_time_picker'">
+                  <nz-range-picker
+                    [nzFormat]="col.filter?.format ?? 'dd/MM/yyyy'"
+                    [(ngModel)]="col.valueFilter"
+                    (ngModelChange)="filterDataByColumn(col, $event)"
+                  ></nz-range-picker>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  <input nz-input [placeholder]="col?.filter?.placeHolder" [(ngModel)]="col.valueFilter" (keyup.enter)="filterDataByColumn(col, $event)" type="text" />
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-template #filterTemplateDefault>
+              <input nz-input [placeholder]="'Tìm kiếm'" [(ngModel)]="col.valueFilter" (keyup.enter)="filterDataByColumn(col, $event)" type="text" />
+            </ng-template>
+          </ng-container>
+        </div>
+      </ng-template>
+    </th>
+    <th *ngIf="isSettingColumn"
+        nzRight
+        class="text-center"
+        [nzWidth]="'30px'"
+    >
+      <div nz-dropdown nzTrigger="click"
+           nzClickHide="false"
+           [nzDropdownMenu]="menu"
+      >
+        <i nz-icon nzType="setting"
+           nzTheme="outline"
+           class="cursor-pointer"></i>
+      </div>
+
+      <nz-dropdown-menu #menu="nzDropdownMenu" (click)="$event.stopPropagation()">
+        <ul nz-menu class="p-2"> <!-- Optional padding -->
+          <!-- Chọn tất cả -->
+          <li nz-menu-item>
+            <label nz-checkbox [(ngModel)]="allCheckedColumn" (ngModelChange)="onCheckAllChange($event)">
+              Chọn tất cả
+            </label>
+          </li>
+
+          <!-- Các item -->
+          <li nz-menu-item *ngFor="let item of columns; let i = index">
+            <label nz-checkbox [(ngModel)]="item.checked" (ngModelChange)="updateCheckAllState()">
+              {{ item?.header }}
+            </label>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of table.data">
+    <td *ngIf="settingTable.checkboxColumn" [(nzChecked)]="item.checked" (nzCheckedChange)="changeCheckedRow($event)"></td>
+
+    <td *ngFor="let col of displayColumns"
+        [nzLeft]="col?.nzLeft ?? false"
+        [nzRight]="col?.nzRight ?? false"
+        [ngClass]="col?.tdClass"
+    >
+
+      <ng-container
+        [ngTemplateOutlet]="cellTemplate[col.columnDef] ? cellTemplate[col.columnDef] : cellTemplateDefault"
+        [ngTemplateOutletContext]="{row: item, col: col}"
+      >
+      </ng-container>
+
+      <ng-template #cellTemplateDefault>
+        <ng-container [ngSwitch]="col?.columnDef">
+          <ng-container *ngSwitchCase="'action'">
+            <ng-container *ngFor="let ac of col?.actions">
+              <button (click)="onButtonClick(ac.name, item)" class="mr-2" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle" [nz-tooltip]="ac?.label">
+                <i nz-icon [nzType]="ac.icon" nzTheme="outline"></i>
+              </button>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{item[col.columnDef]}}
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </td>
+    <td *ngIf="isSettingColumn"
+        class="text-center"
+        nzRight
+    >
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+
+<nz-pagination
+  class="text-right mt-2"
+  *ngIf="settingTable.nzShowPagination"
+  [nzPageIndex]="pagination.pageIndex" [nzTotal]="pagination.total"
+  nzShowQuickJumper
+></nz-pagination>

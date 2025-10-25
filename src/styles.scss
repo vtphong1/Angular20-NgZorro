@@ -1,0 +1,55 @@
+@use "sass:color";
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
+
+$primary-color: #e53935;
+
+// Checkbox
+.ant-checkbox {
+  &-checked .ant-checkbox-inner {
+    background-color: $primary-color !important;
+    border-color: $primary-color !important;
+  }
+
+  &:hover .ant-checkbox-inner {
+    border-color: $primary-color !important;
+  }
+}
+
+// Select
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: color.adjust($primary-color, $lightness: 30%) !important;
+}
+
+// Button primary
+.ant-btn-primary {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+
+  &:hover,
+  &:focus {
+    $hover-color: color.adjust($primary-color, $lightness: -5%);
+    background-color: $hover-color !important;
+    border-color: $hover-color !important;
+  }
+}
+
+// Pagination active item
+.ant-pagination-item-active {
+  border-color: $primary-color !important;
+
+  a {
+    color: $primary-color !important;
+  }
+}
+
+// Pagination quick jumper
+.ant-pagination-options-quick-jumper input {
+  &:hover,
+  &:focus {
+    border-color: $primary-color !important;
+    box-shadow: none !important;
+  }
+}
+

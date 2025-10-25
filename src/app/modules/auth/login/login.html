@@ -1,0 +1,27 @@
+<div class="flex h-full w-full justify-center items-center">
+  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+    <nz-input-group nzPrefixIcon="user" class="w-full">
+      <input type="text" nz-input formControlName="username" placeholder="Username"/>
+    </nz-input-group>
+    <app-error-message [control]="validateForm.get('username')!" [fieldName]="'Tên đăng nhập'"></app-error-message>
+
+    <nz-input-group nzPrefixIcon="lock" class="mt-2 w-full">
+      <input type="password" nz-input formControlName="password" placeholder="Password"/>
+    </nz-input-group>
+    <app-error-message [control]="validateForm.get('password')!" [fieldName]="'Mật khẩu'"></app-error-message>
+
+    <div nz-row class="login-form-margin mt-2 w-full">
+      <div nz-col [nzSpan]="12">
+        <label nz-checkbox formControlName="remember">
+          <span>Remember me</span>
+        </label>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <a class="login-form-forgot">Forgot password</a>
+      </div>
+    </div>
+    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+    Or
+    <a>register now!</a>
+  </form>
+</div>

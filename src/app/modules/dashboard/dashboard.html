@@ -1,0 +1,31 @@
+<p>dashboard works!</p>
+<app-select-infinite
+  class="w-[200px]"
+  [formControl]="user"
+  [apiFnStream]="loadUserStream"
+  [apiByIdFn]="getUserById"
+  [mode]="'multiple'"
+>
+</app-select-infinite>
+<nz-date-picker></nz-date-picker>
+<i nz-icon nzType="custom-icon:triangle"></i>
+
+
+<app-table-common
+  [columns]="columns"
+  [listOfData]="data"
+  (actionEvent)="actionEvent($event)"
+  [pagination]="pagination"
+  [cellTemplate]="{'user': userTemplate}"
+  [headerTemplate]="{'user': headerUserTemplate}"
+>
+
+  <ng-template #headerUserTemplate let-col="col">
+    <b>Header User</b>
+  </ng-template>
+
+  <ng-template #userTemplate let-item="row" let-col="col">
+    <span>user template</span>
+  </ng-template>
+
+</app-table-common>

@@ -1,0 +1,22 @@
+<nz-select
+  [nzPlaceHolder]="placeholder"
+  [nzMode]="mode"
+  [nzShowSearch]="true"
+  [nzAllowClear]="true"
+  [nzMaxTagCount]="nzMaxTagCount"
+  [nzLoading]="loading"
+  [ngModel]="value"
+  (ngModelChange)="onSelectChange($event)"
+  (nzScrollToBottom)="onScrollEnd()"
+  (nzFocus)="focus.emit()"
+  (nzOpenChange)="onOpenChange($event)"
+  class="w-full">
+  <cdk-virtual-scroll-viewport itemSize="40" class="viewport">
+    <nz-option
+      *ngFor="let item of list"
+      [nzValue]="item.value"
+      [nzLabel]="item.label">
+    </nz-option>
+  </cdk-virtual-scroll-viewport>
+</nz-select>
+

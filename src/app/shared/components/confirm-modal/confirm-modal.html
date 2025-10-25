@@ -1,0 +1,6 @@
+<p>{{data?.content}}</p>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" nzDanger (click)="modalRef.close()">Đóng</button>
+  <button nz-button nzType="primary" nzDanger (click)="modalRef.close('Confirm')">Xác nhận</button>
+</div>

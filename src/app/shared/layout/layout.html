@@ -1,0 +1,68 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" nzTheme="light" nzWidth="250px">
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="light" nzMode="inline">
+      <ng-container *ngFor="let item of menuItems">
+        <li *ngIf="item.children?.length; else singleItem"
+            nz-submenu
+            [nzTitle]="item.title"
+            [nzIcon]="item.icon ?? ''">
+          <ul>
+            <!-- Chỉ đệ quy con -->
+            <ng-container *ngFor="let child of item.children">
+              <li *ngIf="child.children?.length; else singleChildItem"
+                  nz-submenu
+                  [nzTitle]="child.title"
+                  [nzIcon]="child.icon ?? ''">
+                <ul>
+                  <app-menu-item [isCollapsed]="isCollapsed" [items]="child.children ?? []"></app-menu-item>
+                </ul>
+              </li>
+
+              <ng-template #singleChildItem>
+                <li nz-menu-item>
+                  <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <i *ngIf="child.icon" nz-icon [nzType]="child.icon" nzTheme="outline"></i>
+                    <span>{{ child.title }}</span>
+                  </a>
+                </li>
+              </ng-template>
+            </ng-container>
+          </ul>
+        </li>
+
+        <ng-template #singleItem>
+          <li nz-menu-item *hasAnyAuthority="item.role">
+            <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <i *ngIf="item.icon" nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+              <span>{{ item.title }}</span>
+            </a>
+          </li>
+        </ng-template>
+      </ng-container>
+      <!--      <app-menu-item [isCollapsed]="isCollapsed" [items]="menuItems"></app-menu-item>-->
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header class="flex justify-between items-center px-2">
+      <div class="breadcrumb">
+        <app-breadcrumb></app-breadcrumb>
+      </div>
+      <div nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="avatar cursor-pointer">
+        <nz-avatar nzSize="large" nzIcon="user"></nz-avatar>
+      </div>
+
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item routerLink="/login">Log out</li>
+        </ul>
+      </nz-dropdown-menu>
+
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet/>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
