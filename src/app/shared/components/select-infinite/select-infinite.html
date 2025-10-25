@@ -1,5 +1,6 @@
 <nz-select
   [nzPlaceHolder]="placeholder"
+  [nzServerSearch]="!!apiFnStream"
   [nzMode]="mode"
   [nzShowSearch]="true"
   [nzAllowClear]="true"
@@ -10,6 +11,7 @@
   (nzScrollToBottom)="onScrollEnd()"
   (nzFocus)="focus.emit()"
   (nzOpenChange)="onOpenChange($event)"
+  (nzOnSearch)="onSearch($event)"
   class="w-full">
   <cdk-virtual-scroll-viewport itemSize="40" class="viewport">
     <nz-option

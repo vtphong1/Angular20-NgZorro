@@ -1,7 +1,7 @@
 import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
 import {FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {IParamsSearch, IResponseOption} from '../../services/ui-config/ui-config-service';
-import {finalize, Observable, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, finalize, Observable, of, Subject, Subscription, switchMap} from 'rxjs';
 import {IOptionModel} from '../../models/option-model';
 import {CommonModule} from '@angular/common';
 import {NzSelectModule} from 'ng-zorro-antd/select';
@@ -34,6 +34,8 @@ export class SelectInfinite {
   @Output() blur = new EventEmitter<void>();
   @Output() focus = new EventEmitter<void>();
   @Output() openChange = new EventEmitter<void>();
+  private searchSubject = new Subject<string>();
+  private currentKeyword = '';
   isOpenChange: boolean = false;
 
   /** Cho phép truyền list fix sẵn từ ngoài vào */
@@ -57,6 +59,27 @@ export class SelectInfinite {
     if (this.list?.length) {
       this.mergeDataToList(this.list);
     }
+
+    if (this.apiFnStream) {
+      this.searchSubject.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(keyword => {
+          const params: IParamsSearch = { page: 0, size: this.size, keyword };
+          return this.apiFnStream ? this.apiFnStream(params) : of({data: []});
+        }),
+        finalize(() => this.loading = false)
+      ).subscribe((res: any) => {
+        this.listMap.clear();
+        this.mergeDataToList(res?.data || []);
+      });
+    }
+  }
+
+  onSearch(keyword: string) {
+    // Nếu không có API search → không xử lý (để ng zorro tự lọc local)
+    if (!this.apiFnStream) return;
+    this.searchSubject.next(keyword);
   }
 
   // --- Data loading ---
