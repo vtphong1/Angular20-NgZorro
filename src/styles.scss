@@ -19,7 +19,7 @@ $primary-color: #e53935;
 
 // Select
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
-  background-color: color.adjust($primary-color, $lightness: 30%) !important;
+  background-color: color.adjust($primary-color, $lightness: 35%) !important;
 }
 
 // Button primary
@@ -96,6 +96,16 @@ $primary-color: #e53935;
 .ant-menu-item a:hover {
   color: $primary-color !important;
 }
+
+// --- Override NG-ZORRO input styles ---
+input.ant-input,
+textarea.ant-input,
+nz-select .ant-select-selector,
+.ant-picker,
+.ant-input-affix-wrapper {
+  border-radius: 8px !important;
+}
+
 
 
 

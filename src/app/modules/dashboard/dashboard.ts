@@ -11,6 +11,7 @@ import {ITableColumn} from '@shared/models/column-table';
 import {IPagination} from '@core/bases/model';
 import {ConfirmModal} from '@shared/components/confirm-modal/confirm-modal';
 import {NzIconModule} from 'ng-zorro-antd/icon';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,8 @@ import {NzIconModule} from 'ng-zorro-antd/icon';
     TableCommon,
     NzDatePickerModule,
     NzModalModule,
-    NzIconModule
+    NzIconModule,
+    TranslatePipe
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'

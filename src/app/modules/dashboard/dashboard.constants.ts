@@ -1,6 +1,6 @@
-import {ITableColumn} from '../../shared/models/column-table';
-import {EModeType, ESelectType} from '../../shared/enums/select-type';
-import {FILTER_API_MAP} from '../../core/ui-config';
+import {ITableColumn} from '@shared/models/column-table';
+import {EModeType, ESelectType} from '@shared/enums/select-type';
+import {FILTER_API_MAP} from '@core/ui-config';
 
 export const columns: ITableColumn[] = [
   {
