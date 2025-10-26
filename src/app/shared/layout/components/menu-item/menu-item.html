@@ -1,6 +1,7 @@
 <ng-container *ngFor="let item of items">
   <li *ngIf="item.children?.length; else singleItem"
       nz-submenu
+      [class.ant-menu-submenu-selected]="true"
       [nzTitle]="item.title"
       [nzIcon]="item.icon ?? ''">
     <ul>
@@ -10,9 +11,14 @@
   </li>
 
   <ng-template #singleItem>
-    <li nz-menu-item *hasAnyAuthority="item.role">
-      <i *ngIf="item.icon" nz-icon [nzType]="item.icon" nzTheme="outline"></i>
-      <span>{{ item.title }}</span>
+    <li nz-menu-item
+        *hasAnyAuthority="item.role"
+        [class.ant-menu-item-selected]="isActive(item.path)"
+    >
+      <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i *ngIf="item.icon" nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+        <span>{{ item.title }}</span>
+      </a>
     </li>
   </ng-template>
 </ng-container>

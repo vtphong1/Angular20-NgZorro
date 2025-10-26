@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {Breadcrumb} from './components/breadcrumb/breadcrumb';
-import {RouterModule, RouterOutlet} from '@angular/router';
+import {Router, RouterModule, RouterOutlet} from '@angular/router';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {MenuItem} from './components/menu-item/menu-item';
@@ -33,6 +33,7 @@ import {MENU} from '@shared/constants/menu';
   styleUrl: './layout.scss'
 })
 export class Layout {
+  router = inject(Router)
   isCollapsed = false;
   menuItems: IMenuLayout[] = MENU;
   protected readonly date = new Date();

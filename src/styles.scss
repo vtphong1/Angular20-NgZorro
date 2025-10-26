@@ -53,3 +53,50 @@ $primary-color: #e53935;
   }
 }
 
+.ant-menu-light {
+  // --- Hover & Active States ---
+  .ant-menu-item-active,
+  .ant-menu-item:hover,
+  .ant-menu-submenu-active,
+  .ant-menu-submenu-title:hover,
+  .ant-menu-submenu-open,
+  .ant-menu-submenu-selected {
+    color: $primary-color !important;
+  }
+
+  // --- Selected Item ---
+  .ant-menu-item-selected {
+    background-color: color.adjust($primary-color, $lightness: 40%) !important;
+
+    a {
+      color: $primary-color !important;
+    }
+  }
+
+  // --- Submenu Arrow (Hover + Selected) ---
+  .ant-menu-submenu-title:hover,
+  .ant-menu-submenu-selected > .ant-menu-submenu-title {
+    .ant-menu-submenu-arrow,
+    .ant-menu-submenu-expand-icon {
+      color: $primary-color !important;
+    }
+  }
+
+  .ant-menu-submenu-arrow {
+    color: black !important;
+  }
+}
+
+// --- Inline Right Border Indicator ---
+.ant-menu-inline .ant-menu-item::after {
+  border-right-color: $primary-color !important;
+}
+
+// --- Link Hover ---
+.ant-menu-item a:hover {
+  color: $primary-color !important;
+}
+
+
+
+

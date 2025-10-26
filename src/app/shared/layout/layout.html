@@ -32,7 +32,7 @@
         </li>
 
         <ng-template #singleItem>
-          <li nz-menu-item *hasAnyAuthority="item.role">
+          <li nz-menu-item *hasAnyAuthority="item.role" [nzSelected]="router.url === item.path">
             <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
               <i *ngIf="item.icon" nz-icon [nzType]="item.icon" nzTheme="outline"></i>
               <span>{{ item.title }}</span>
