@@ -21,7 +21,7 @@
 
               <ng-template #singleChildItem>
                 <li nz-menu-item>
-                  <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                  <a [routerLink]="child.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                     <i *ngIf="child.icon" nz-icon [nzType]="child.icon" nzTheme="outline"></i>
                     <span>{{ child.title }}</span>
                   </a>

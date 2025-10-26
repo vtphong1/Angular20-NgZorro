@@ -16,6 +16,10 @@ export const routes: Routes = [
         redirectTo: '/dashboard'
       },
       {
+        path: 'category',
+        loadChildren: () => import('./modules/category/category.routes').then(m => m.CATEGORY_ROUTES)
+      },
+      {
         path: 'dashboard',
         loadComponent: () => import('./modules/dashboard/dashboard').then(m => m.Dashboard),
         data: {

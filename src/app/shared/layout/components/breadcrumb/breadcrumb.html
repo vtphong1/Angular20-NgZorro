@@ -1,7 +1,7 @@
 <nz-breadcrumb>
   <i nz-icon nzType="home" nzTheme="outline"></i>
+  <span class="mx-2">/</span>
   <nz-breadcrumb-item *ngFor="let bc of breadcrumbs">
-    <span class="mx-2">/</span>
     <a [routerLink]="bc.url" [ngClass]="{'active-bc': bc.url === router.url}">{{ bc.label }}</a>
   </nz-breadcrumb-item>
 </nz-breadcrumb>
